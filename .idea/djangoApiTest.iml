@@ -12,19 +12,18 @@
     </facet>
   </component>
   <component name="NewModuleRootManager">
-<<<<<<< HEAD
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="Python 3.4 (djangoApiTest)" jdkType="Python SDK" />
-=======
-    <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/myvenv1" />
-    </content>
-    <orderEntry type="jdk" jdkName="Python 3.6 (myvenv1)" jdkType="Python SDK" />
->>>>>>> 1b58d2d912f3676c2adf06cbb96bde82980538a0
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Django Lib" level="project" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
+    <option name="TEMPLATE_FOLDERS">
+      <list>
+        <option value="$MODULE_DIR$/myvenv1/Lib/site-packages/django/forms/templates" />
+      </list>
+    </option>
   </component>
   <component name="TestRunnerService">
     <option name="PROJECT_TEST_RUNNER" value="Unittests" />

@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-<<<<<<< HEAD
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.4 (djangoApiTest)" project-jdk-type="Python SDK" />
-=======
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.6 (myvenv1)" project-jdk-type="Python SDK" />
->>>>>>> 1b58d2d912f3676c2adf06cbb96bde82980538a0
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.4 virtualenv at C:\Users\USER\Desktop\djangoApiTest\myvenv1" project-jdk-type="Python SDK" />
 </project>

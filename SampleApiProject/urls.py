@@ -7,10 +7,16 @@ from rest_framework_jwt.views import refresh_jwt_token
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^idealweight/',views.IdealWeight),
     url(r'^rest-auth/', include('rest_auth.urls')),
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
     url(r'^refresh-token/', refresh_jwt_token),
+    url(r'^addMsgToRoom/$', views.addMsgToRoom),
+    url(r'^getRoomMsgs/$', views.getRoomMsgs),
+    url(r'^addRoom/$', views.addRoom),
+    url(r'^getUserRooms/$', views.getUserRooms),
+    url(r'^addFreind/$', views.addFreind),
+    url(r'^accept_ignore_Freind/(?P<iduser>[0-9]+)$', views.accept_ignore_Freind),
+    url(r'^getUserFreinds/$', views.getUserFreinds),
 ]
 
 

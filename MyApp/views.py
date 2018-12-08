@@ -1,24 +1,85 @@
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status
-from django.http import JsonResponse
+from .models import messaging
+from .models import rooms
+from .models import friends
+from .serializers import messagingSerializer
+from .serializers import roomSerializer
+from .serializers import freindsSerializer
+from django.db.models import Q
 
-import json
+#Model messaging api methods
+@api_view(['POST'])
+def addMsgToRoom(request):
+    if request.method == 'POST':
+        serializer = messagingSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# Create your views here.
+@api_view(['GET'])
+def getRoomMsgs(request):
+    if request.method == 'GET':
+        msgs = messaging.objects.filter(idRoom=request.data['idRoom'])
+        serializer = messagingSerializer(msgs, context={'request': request}, many=True)
+        data={}
+        data['list'] = serializer.data
+        data['total'] = len(serializer.data)
+        return Response(data)
 
-@api_view(["POST"])
+@api_view(['GET'])
+def getUserRooms(request):
+    if request.method == 'GET':
+        listOfRooms = rooms.objects.filter(Q(idUser1=request.data['iduser']) | Q(idUser2=request.data['iduser']))
+        serializer = roomSerializer(listOfRooms, context={'request': request}, many=True)
+        data = {}
+        data['list'] = serializer.data
+        data['total'] = len(serializer.data)
+        return Response(data)
 
-def IdealWeight(heightdata):
+@api_view(['POST'])
+def addRoom(request):
+    if request.method == 'POST':
+        serializer = roomSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
+def addFreind(request):
+    if request.method == 'POST':
+        serializer = freindsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT'])
+def accept_ignore_Freind(request,iduser):
     try:
+        freind= friends.objects.get(idUser=iduser)
+    except friends.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
-        height=json.loads(heightdata.body.decode('utf-8'))
+    if request.method == 'PUT':
+        serializer = freindsSerializer(freind, data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        weight=str(height*10)
+@api_view(['GET'])
+def getUserFreinds(request):
+    if request.method == 'GET':
+        listOfFreinds = friends.objects.filter(Q(senderId=request.data['iduser']) | Q(receiverId=request.data['iduser']))
+        serializer = freindsSerializer(listOfFreinds, context={'request': request}, many=True)
+        data = {}
+        data['list'] = serializer.data
+        data['total'] = len(serializer.data)
+        return Response(data)
 
-        return JsonResponse("Ideal weight should be:"+weight+" kg",safe=False)
 
-    except ValueError as e:
 
-        return Response(e.args[0],status.HTTP_400_BAD_REQUEST)

@@ -27,7 +27,7 @@ SECRET_KEY = 'v@ylsl*3-#&_&wx$9n%8=cqv89)4+^vwmu+sh6*v21$+-+@l@f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['babba0609.pythonanywhere.com']
+ALLOWED_HOSTS = ['babba0609.pythonanywhere.com','127.0.0.1']
 
 
 # Application definition
@@ -135,6 +135,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ),
+}
+
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'MyApp.serializers.MyRegisterSerializer'
 }
 
 # Enables django-rest-auth to use JWT tokens instead of regular tokens.
