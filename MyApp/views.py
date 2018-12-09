@@ -20,9 +20,9 @@ def addMsgToRoom(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-def getRoomMsgs(request):
+def getRoomMsgs(request,idroom):
     if request.method == 'GET':
-        msgs = messaging.objects.filter(idRoom=request.data['idRoom'])
+        msgs = messaging.objects.filter(idRoom=idroom)
         serializer = messagingSerializer(msgs, context={'request': request}, many=True)
         data={}
         data['list'] = serializer.data
@@ -30,9 +30,9 @@ def getRoomMsgs(request):
         return Response(data)
 
 @api_view(['GET'])
-def getUserRooms(request):
+def getUserRooms(request,iduser):
     if request.method == 'GET':
-        listOfRooms = rooms.objects.filter(Q(idUser1=request.data['iduser']) | Q(idUser2=request.data['iduser']))
+        listOfRooms = rooms.objects.filter(Q(idUser1=iduser) | Q(idUser2=iduser))
         serializer = roomSerializer(listOfRooms, context={'request': request}, many=True)
         data = {}
         data['list'] = serializer.data
@@ -72,9 +72,9 @@ def accept_ignore_Freind(request,iduser):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-def getUserFreinds(request):
+def getUserFreinds(request,iduser):
     if request.method == 'GET':
-        listOfFreinds = friends.objects.filter(Q(senderId=request.data['iduser']) | Q(receiverId=request.data['iduser']))
+        listOfFreinds = friends.objects.filter(Q(senderId=iduser) | Q(receiverId=iduser))
         serializer = freindsSerializer(listOfFreinds, context={'request': request}, many=True)
         data = {}
         data['list'] = serializer.data
