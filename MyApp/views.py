@@ -30,6 +30,16 @@ def getRoomMsgs(request,idroom):
         return Response(data)
 
 @api_view(['GET'])
+def getLastRoomMsg(request,idroom):
+    if request.method == 'GET':
+        msgs = messaging.objects.filter(idRoom=idroom).latest('idmsg')
+        serializer = messagingSerializer(msgs, context={'request': request}, many=False)
+        data = {}
+        data['list'] = serializer.data
+        data['total'] = len(serializer.data)
+        return Response(data)
+
+@api_view(['GET'])
 def getUserRooms(request,iduser):
     if request.method == 'GET':
         listOfRooms = rooms.objects.filter(Q(idUser1=iduser) | Q(idUser2=iduser))
@@ -60,7 +70,7 @@ def addFreind(request):
 @api_view(['PUT'])
 def accept_ignore_Freind(request,iduser):
     try:
-        freind= friends.objects.get(idUser=iduser)
+        freind= friends.objects.get(id=iduser)
     except friends.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
