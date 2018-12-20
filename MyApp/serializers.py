@@ -1,10 +1,11 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import messaging
 from .models import rooms
 from .models import friends
 from rest_auth.registration.serializers import RegisterSerializer
-from .models import Profile
 from allauth.account.adapter import get_adapter
+from rest_auth.serializers import UserDetailsSerializer
 
 class MyRegisterSerializer(RegisterSerializer):
     first_name = serializers.CharField()
@@ -27,6 +28,22 @@ class MyRegisterSerializer(RegisterSerializer):
         self.custom_signup(request, user)
         return user
 
+class CustomUserDetailsSerializer(UserDetailsSerializer):
+    phone = serializers.CharField(source="profile.phone")
+    class Meta(UserDetailsSerializer.Meta):
+        fields = UserDetailsSerializer.Meta.fields + ('phone',)
+    def update(self, instance, validated_data):
+        profile_data = validated_data.pop('profile', {})
+        phone = profile_data.get('phone')
+        instance = super(CustomUserDetailsSerializer, self).update(instance, validated_data)
+
+        profile = instance.profile
+        if profile_data and phone:
+            profile.phone = phone
+        profile.save()
+        return instance
+
+
 class messagingSerializer(serializers.ModelSerializer):
     class Meta:
         model = messaging
@@ -40,5 +57,10 @@ class roomSerializer(serializers.ModelSerializer):
 class freindsSerializer(serializers.ModelSerializer):
     class Meta:
         model = friends
+        fields = '__all__'
+
+class userSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = User
         fields = '__all__'
 

@@ -7,7 +7,9 @@ from .models import friends
 from .serializers import messagingSerializer
 from .serializers import roomSerializer
 from .serializers import freindsSerializer
+from .serializers import userSerializers
 from django.db.models import Q
+from django.contrib.auth.models import User
 
 #Model messaging api methods
 @api_view(['POST'])
@@ -90,6 +92,17 @@ def getUserFreinds(request,iduser):
         data['list'] = serializer.data
         data['total'] = len(serializer.data)
         return Response(data)
+
+@api_view(['GET'])
+def getUsersByEmail_Nom_Prenom(request,text):
+    if request.method == 'GET':
+        listOfUsers = User.objects.filter(Q(email__contains=text) | Q(first_name__contains=text) | Q(last_name__contains=text))
+        serializer = userSerializers(listOfUsers, context={'request': request}, many=True)
+        data = {}
+        data['list'] = serializer.data
+        data['total'] = len(serializer.data)
+        return Response(data)
+
 
 
 

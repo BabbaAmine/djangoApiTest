@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'MyApp',
     'corsheaders',
+    'rest_framework.authtoken'
 ]
 
 SITE_ID = 1
@@ -126,25 +127,25 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Configure the JWTs to expire after 1 hour, and allow users to refresh near-expiration tokens
 JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=1),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1500),
     'JWT_ALLOW_REFRESH': True,
 }
 
 # Make JWT Auth the default authentication mechanism for Django
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
+          'rest_framework.permissions.AllowAny',
+),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-    ),
+          'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+),
 }
-
 
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'MyApp.serializers.MyRegisterSerializer'
+}
+REST_AUTH_SERIALIZERS = {
+    "USER_DETAILS_SERIALIZER": "MyApp.serializers.CustomUserDetailsSerializer",
 }
 
 # Enables django-rest-auth to use JWT tokens instead of regular tokens.
