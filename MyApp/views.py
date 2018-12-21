@@ -113,6 +113,15 @@ def getAllUsers(request):
         data['total'] = len(serializer.data)
         return Response(data)
 
+@api_view(['GET'])
+def getUserDetails(request,iduser):
+    if request.method == 'GET':
+        user = User.objects.get(id=iduser)
+        serializer = userSerializers(user, context={'request': request}, many=False)
+        data = {}
+        data['user'] = serializer.data
+        return Response(data)
+
 
 
 
