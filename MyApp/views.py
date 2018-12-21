@@ -103,6 +103,16 @@ def getUsersByEmail_Nom_Prenom(request,text):
         data['total'] = len(serializer.data)
         return Response(data)
 
+@api_view(['GET'])
+def getAllUsers(request):
+    if request.method == 'GET':
+        listOfUsers = User.objects.all()
+        serializer = userSerializers(listOfUsers, context={'request': request}, many=True)
+        data = {}
+        data['list'] = serializer.data
+        data['total'] = len(serializer.data)
+        return Response(data)
+
 
 
 

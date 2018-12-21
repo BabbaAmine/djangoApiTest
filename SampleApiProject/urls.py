@@ -17,8 +17,9 @@ urlpatterns = [
     url(r'^getUserRooms/(?P<iduser>[0-9]+)$', views.getUserRooms),
     url(r'^addFreind/$', views.addFreind),
     url(r'^accept_ignore_Freind/(?P<iduser>[0-9]+)$', views.accept_ignore_Freind),
-    url(r'^getUsersByEmail_Nom_Prenom/(?P<text>[\w\-]+)$', views.getUsersByEmail_Nom_Prenom),
+    url(r'^getUsersByEmail_Nom_Prenom/(?P<text>[\w.@+-]+)/$', views.getUsersByEmail_Nom_Prenom),
     url(r'^getUsersByEmail_F/(?P<iduser>[0-9]+)$', views.getUserFreinds),
+    url(r'^getAllUsers/', views.getAllUsers),
 ]
 
 
