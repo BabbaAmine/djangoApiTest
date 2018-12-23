@@ -136,7 +136,10 @@ def getRoomDetails(request,idroom,currentuser):
            user = User.objects.get(id=room['idUser2'])
            data['user'] = userSerializers(user, context={'request': request}, many=False).data
        msg = messaging.objects.filter(idRoom=room['idRoom']).latest('idmsg')
-       data['message']=messagingSerializer(msg, context={'request': request}, many=False).data
+       if(msg.count() > 0 ):
+           data['message']=messagingSerializer(msg, context={'request': request}, many=False).data
+       else:
+           data['message']={}
        return Response(data)
 
 
