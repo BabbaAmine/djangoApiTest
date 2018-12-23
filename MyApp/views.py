@@ -122,17 +122,17 @@ def getUserDetails(request,iduser):
         data['user'] = serializer.data
         return Response(data)
 
-@api_view(['POST'])
-def getRoomDetails(request):
-    if request.method == 'POST':
+@api_view(['GET'])
+def getRoomDetails(request,idroom,currentuser):
+    if request.method == 'GET':
        data = {}
-       r = rooms.objects.get(idRoom=request.POST['idroom'])
+       r = rooms.objects.get(idRoom=idroom)
        room = roomSerializer(r,context={'request': request}, many=False).data
 
-       if(request.POST['currentuser'] != room['idUser1']):
+       if(currentuser != room['idUser1']):
            user = User.objects.get(id=room['idUser1'])
            data['user'] = userSerializers(user, context={'request': request}, many=False).data
-       if(request.POST['currentuser'] != room['idUser2']):
+       if(currentuser != room['idUser2']):
            user = User.objects.get(id=room['idUser2'])
            data['user'] = userSerializers(user, context={'request': request}, many=False).data
        msg = messaging.objects.filter(idRoom=room['idRoom']).latest('idmsg')

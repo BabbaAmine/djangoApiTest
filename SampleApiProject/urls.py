@@ -21,7 +21,7 @@ urlpatterns = [
     url(r'^getUsersFreinds/(?P<iduser>[0-9]+)$', views.getUserFreinds),
     url(r'^getAllUsers/', views.getAllUsers),
     url(r'^getUserDetails/(?P<iduser>[0-9]+)$', views.getUserDetails),
-    url(r'^getRoomDetails/', views.getRoomDetails),
+    url(r'^getRoomDetails/(?P<idroom>[0-9]+)/(?P<currentuser>[0-9]+)$', views.getRoomDetails),
 ]
 
 
