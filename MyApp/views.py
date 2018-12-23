@@ -128,7 +128,7 @@ def getRoomDetails(request,idroom,currentuser):
        data = {}
        r = rooms.objects.get(idRoom=idroom)
        room = roomSerializer(r,context={'request': request}, many=False).data
-
+       data['room']=room.data
        if(currentuser != room['idUser1']):
            user = User.objects.get(id=room['idUser1'])
            data['user'] = userSerializers(user, context={'request': request}, many=False).data
